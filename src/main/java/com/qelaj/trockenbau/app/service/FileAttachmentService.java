@@ -12,6 +12,7 @@ import java.io.IOException;
 import java.sql.Blob;
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class FileAttachmentService {
@@ -37,6 +38,17 @@ public class FileAttachmentService {
 
     public List<FileAttachment> getFiles(){
         return fileAttachmentRepository.findAll();
+    }
+
+    public int updateDescription(Long id,String description){
+        Optional<FileAttachment> fileAttachment = fileAttachmentRepository.findById(id);
+        if(fileAttachment.isPresent()){
+            fileAttachment.get().setFileDescription(description);
+            fileAttachmentRepository.save(fileAttachment.get());
+            return 200;
+        }else{
+            return 404;
+        }
     }
 
 }

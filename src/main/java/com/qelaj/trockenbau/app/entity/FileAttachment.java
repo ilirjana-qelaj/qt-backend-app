@@ -1,5 +1,6 @@
 package com.qelaj.trockenbau.app.entity;
 
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -20,6 +21,8 @@ public class FileAttachment {
     private String fileName;
     private String fileType;
     @Lob
+    @JsonSerialize(using = BlobSerializer.class)
     private Blob fileContent;
+    private String fileDescription;
 
 }
