@@ -37,4 +37,10 @@ public class FileAttachmentController {
         int status = fileAttachmentService.updateDescription(id,description);
         return new ResponseEntity(HttpStatus.valueOf(status));
     }
+
+    @DeleteMapping("/delete")
+    private ResponseEntity deleteFile(@RequestParam Long id) throws IOException, SQLException {
+        int status = fileAttachmentService.deleteFile(id);
+        return new ResponseEntity(HttpStatus.valueOf(status));
+    }
 }

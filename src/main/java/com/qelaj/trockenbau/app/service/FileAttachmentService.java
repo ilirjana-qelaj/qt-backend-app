@@ -46,9 +46,16 @@ public class FileAttachmentService {
             fileAttachment.get().setFileDescription(description);
             fileAttachmentRepository.save(fileAttachment.get());
             return 200;
-        }else{
-            return 404;
         }
+        return 404;
     }
 
+    public int deleteFile(Long id) {
+        Optional<FileAttachment> fileAttachment = fileAttachmentRepository.findById(id);
+        if(fileAttachment.isPresent()){
+            fileAttachmentRepository.deleteById(id);
+            return 200;
+        }
+        return 404;
+    }
 }
