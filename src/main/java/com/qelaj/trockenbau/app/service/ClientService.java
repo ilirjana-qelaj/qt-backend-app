@@ -34,9 +34,9 @@ public class ClientService {
         if(clientFromDb.isEmpty()) {
             return 404;
         }
+        client.setId(id);
         clientRepository.save(client);
         return 200;
-
     }
 
     public List<Client> getAllClients() {

@@ -5,6 +5,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 @Data
 @Entity
 @NoArgsConstructor
@@ -17,4 +19,6 @@ public class Client {
     private String firmName;
     private String clientName;
     private String telephoneNumber;
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "client")
+    private List<Invoice> clientInvoices;
 }
