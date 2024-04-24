@@ -5,6 +5,7 @@ import com.qelaj.trockenbau.app.entity.Invoice;
 import com.qelaj.trockenbau.app.entity.Project;
 import com.qelaj.trockenbau.app.repository.ClientRepository;
 import com.qelaj.trockenbau.app.repository.InvoiceRepository;
+import com.qelaj.trockenbau.app.repository.ProjectRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,17 +16,20 @@ import java.util.Optional;
 public class InvoiceService {
     private final InvoiceRepository invoiceRepository;
     private final ClientRepository clientRepository;
+    private final ProjectRepository projectRepository;
+
 
     @Autowired
-    public InvoiceService(InvoiceRepository invoiceRepository, ClientRepository clientRepository) {
+    public InvoiceService(InvoiceRepository invoiceRepository, ClientRepository clientRepository, ProjectRepository projectRepository) {
         this.invoiceRepository = invoiceRepository;
         this.clientRepository = clientRepository;
+        this.projectRepository = projectRepository;
     }
 
     public void createInvoice(Invoice invoice) {
-        Optional<Client> client = clientRepository.findById(invoice.getClientId());
-        if(client.isPresent()){
-//            invoice.setProject();
+        Optional<Project> project = projectRepository.findById(invoice.getProjectId());
+        if(project.isPresent()){
+            invoice.setProject(project.get());
             invoiceRepository.save(invoice);
         }
     }

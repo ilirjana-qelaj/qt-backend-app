@@ -26,6 +26,6 @@ public class Invoice {
     @JsonIgnore
     private Project project;
     @Transient
-    private Long clientId;
+    private Long projectId;
 
 }
