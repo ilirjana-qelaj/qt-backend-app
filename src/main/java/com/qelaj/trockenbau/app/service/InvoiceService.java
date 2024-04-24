@@ -2,6 +2,7 @@ package com.qelaj.trockenbau.app.service;
 
 import com.qelaj.trockenbau.app.entity.Client;
 import com.qelaj.trockenbau.app.entity.Invoice;
+import com.qelaj.trockenbau.app.entity.Project;
 import com.qelaj.trockenbau.app.repository.ClientRepository;
 import com.qelaj.trockenbau.app.repository.InvoiceRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,7 +25,7 @@ public class InvoiceService {
     public void createInvoice(Invoice invoice) {
         Optional<Client> client = clientRepository.findById(invoice.getClientId());
         if(client.isPresent()){
-            invoice.setClient(client.get());
+//            invoice.setProject();
             invoiceRepository.save(invoice);
         }
     }
@@ -49,5 +50,9 @@ public class InvoiceService {
 
     public List<Invoice> getAllInvoices() {
         return invoiceRepository.findAll();
+    }
+
+    public List<Invoice> getAllInvoicesByProjectId(Long projectId) {
+        return invoiceRepository.findByProjectId(projectId);
     }
 }

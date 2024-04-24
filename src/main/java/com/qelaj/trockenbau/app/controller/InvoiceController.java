@@ -51,4 +51,9 @@ public class InvoiceController {
         invoiceService.deleteInvoice(id);
         return ResponseEntity.ok(HttpStatus.OK);
     }
+
+    @GetMapping("/project/{projectId}")
+    private ResponseEntity getAllInvoicesByProjectId(@PathVariable Long projectId){
+        return ResponseEntity.ok(invoiceService.getAllInvoicesByProjectId(projectId));
+    }
 }

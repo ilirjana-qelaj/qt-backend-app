@@ -7,24 +7,28 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.sql.Date;
+import java.util.List;
 
 @Data
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "Invoice")
-public class Invoice {
+@Table(name = "Project")
+public class Project {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private Date invoiceDate;
-    @Column(length = 2000)
-    private String invoiceDetails;
+    private String projectName;
     private Double amount;
+    private Date startDate;
+    private Date endDate;
+    private String projectAddress;
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "projectId", referencedColumnName = "id")
+    @JoinColumn(name = "clientId", referencedColumnName = "id")
     @JsonIgnore
-    private Project project;
+    private Client client;
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "project")
+    private List<Invoice> projectInvoices;
     @Transient
     private Long clientId;
 

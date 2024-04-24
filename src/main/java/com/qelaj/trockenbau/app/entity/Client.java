@@ -19,6 +19,9 @@ public class Client {
     private String firmName;
     private String clientName;
     private String telephoneNumber;
+    private String clientAddress;
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "client")
-    private List<Invoice> clientInvoices;
+    private List<Project> clientProjects;
+//    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "client")
+//    private List<Invoice> clientInvoices;
 }
