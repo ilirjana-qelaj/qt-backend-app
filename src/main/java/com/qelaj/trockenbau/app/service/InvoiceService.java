@@ -43,11 +43,12 @@ public class InvoiceService {
     }
 
     public int updateInvoice(Long id,Invoice invoice) {
-        Optional<Invoice> clientFromDb = invoiceRepository.findById(id);
-        if(clientFromDb.isEmpty()) {
+        Optional<Invoice> invoiceFromDB = invoiceRepository.findById(id);
+        if(invoiceFromDB.isEmpty()) {
             return 404;
         }
         invoice.setId(id);
+        invoice.setProject(invoiceFromDB.get().getProject());
         invoiceRepository.save(invoice);
         return 200;
     }
