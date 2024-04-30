@@ -1,6 +1,5 @@
 package com.qelaj.trockenbau.app.controller;
 
-import com.qelaj.trockenbau.app.entity.Client;
 import com.qelaj.trockenbau.app.entity.CompanyInformation;
 import com.qelaj.trockenbau.app.service.CompanyInformationService;
 import org.springframework.beans.factory.annotation.Autowired;
