@@ -33,10 +33,17 @@ public class SecurityConfiguration {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http.cors(Customizer.withDefaults());
         http.csrf(httpSecurityCsrfConfigurer -> httpSecurityCsrfConfigurer.disable());
-        http
-                .authorizeHttpRequests((authorize) -> authorize
-                        .anyRequest().permitAll()
-                );
+
+        http.authorizeHttpRequests((authorize) -> authorize.requestMatchers("/file-attachment/**").permitAll());
+        http.authorizeHttpRequests((authorize) -> authorize.requestMatchers("/authenticate/**").permitAll());
+
+        http.authorizeHttpRequests((authorize) -> authorize.requestMatchers("/client/**").authenticated());
+        http.authorizeHttpRequests((authorize) -> authorize.requestMatchers("/invoice/**").authenticated());
+        http.authorizeHttpRequests((authorize) -> authorize.requestMatchers("/project/**").authenticated());
+        http.authorizeHttpRequests((authorize) -> authorize.requestMatchers("/company-information/**").authenticated());
+
+
+
         http
                 .sessionManagement(s->s.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authenticationProvider(authenticationProvider)

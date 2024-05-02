@@ -3,14 +3,13 @@ package com.qelaj.trockenbau.app.controller;
 import com.qelaj.trockenbau.app.entity.User;
 import com.qelaj.trockenbau.app.service.AuthenticationService;
 import com.qelaj.trockenbau.app.service.JwtService;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.Builder;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
-@RequestMapping("/auth")
+@RequestMapping("/authenticate")
 @RestController
 public class AuthenticationController {
     private final JwtService jwtService;
@@ -30,8 +29,8 @@ public class AuthenticationController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<?> authenticate(@RequestBody User loginUserDto) {
-        User authenticatedUser = authenticationService.authenticate(loginUserDto);
+    public ResponseEntity<?> authenticate(@RequestBody User loginUserDto, HttpServletRequest request, HttpServletResponse response) {
+        User authenticatedUser = authenticationService.authenticate(loginUserDto,request,response);
 
         String jwtToken = jwtService.generateToken(authenticatedUser);
 
@@ -39,6 +38,17 @@ public class AuthenticationController {
 
         return ResponseEntity.ok(loginResponse);
     }
+
+
+    @GetMapping("/me")
+    public ResponseEntity<?> loggedInUser() {
+
+        User user = authenticationService.getLoggedInUser();
+
+        return ResponseEntity.ok(user);
+    }
+
+
 }
 
 
