@@ -1,5 +1,8 @@
 package com.qelaj.trockenbau.app.service;
 
+import com.qelaj.trockenbau.app.dto.UserDTO;
+import com.qelaj.trockenbau.app.dto.UserProfileDTO;
+import com.qelaj.trockenbau.app.entity.FileAttachment;
 import com.qelaj.trockenbau.app.entity.User;
 import com.qelaj.trockenbau.app.repository.UserRepository;
 import jakarta.servlet.http.HttpServletRequest;
@@ -16,7 +19,11 @@ import org.springframework.security.web.context.HttpSessionSecurityContextReposi
 import org.springframework.security.web.context.SecurityContextRepository;
 import org.springframework.stereotype.Service;
 
+import javax.sql.rowset.serial.SerialBlob;
+import java.io.IOException;
 import java.sql.Array;
+import java.sql.Blob;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Map;
@@ -58,9 +65,9 @@ public class AuthenticationService {
     public User authenticate(User input, HttpServletRequest request, HttpServletResponse response) {
         Collection grantedAuthority = new ArrayList();
 
-        UsernamePasswordAuthenticationToken token =  new UsernamePasswordAuthenticationToken(
+        UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(
                 input.getEmail(),
-                input.getPassword(),grantedAuthority
+                input.getPassword(), grantedAuthority
         );
 
         Authentication authentication = authenticationManager.authenticate(token);
@@ -74,9 +81,34 @@ public class AuthenticationService {
                 .orElseThrow();
     }
 
-    public User getLoggedInUser() {
-        Authentication  authentication = SecurityContextHolder.getContext().getAuthentication();
+    public UserDTO getLoggedInUser() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         User user = (User) authentication.getPrincipal();
-        return userRepository.findByEmail(user.getEmail()).orElse(null);
+        User userFromDB = userRepository.findByEmail(user.getEmail()).orElse(null);
+        if (userFromDB != null) {
+            return UserDTO.builder().id(userFromDB.getId()).email(userFromDB.getEmail())
+                    .fullName(userFromDB.getFullName()).fileType(userFromDB.getFileType())
+                    .fileName(userFromDB.getFileName()).fileContent(userFromDB.getFileContent()).build();
+        }
+        return null;
+    }
+
+    public int updateUserInfo(Integer id, UserProfileDTO userDTO) throws SQLException, IOException {
+        Optional<User> user = userRepository.findById(id);
+        if(user.isPresent()){
+            user.get().setFileName(userDTO.getFile().getOriginalFilename());
+            user.get().setFileType(userDTO.getFile().getContentType());
+
+            byte[] bytes = userDTO.getFile().getBytes();
+            Blob blob = new SerialBlob(bytes);
+            user.get().setFileContent(blob);
+
+            user.get().setFullName(userDTO.getFullName());
+            user.get().setEmail(userDTO.getEmail());
+            userRepository.save(user.get());
+            return 200;
+        }else{
+            return 404;
+        }
     }
 }

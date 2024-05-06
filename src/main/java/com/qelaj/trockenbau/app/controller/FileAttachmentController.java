@@ -22,25 +22,25 @@ public class FileAttachmentController {
     }
 
     @PostMapping("/upload")
-    private ResponseEntity saveFile(@RequestParam MultipartFile file) throws IOException, SQLException {
+    private ResponseEntity<?> saveFile(@RequestParam MultipartFile file) throws IOException, SQLException {
         fileAttachmentService.saveFile(file);
-        return new ResponseEntity(HttpStatus.OK);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @GetMapping("/all")
-    private ResponseEntity getAllFiles(){
-        return new ResponseEntity(fileAttachmentService.getFiles(),HttpStatus.OK);
+    private ResponseEntity<?> getAllFiles(){
+        return new ResponseEntity<>(fileAttachmentService.getFiles(),HttpStatus.OK);
     }
 
     @PatchMapping("/update-description")
-    private ResponseEntity saveFile(@RequestParam Long id,@RequestParam String description) throws IOException, SQLException {
+    private ResponseEntity<?> saveFile(@RequestParam Long id,@RequestParam String description) throws IOException, SQLException {
         int status = fileAttachmentService.updateDescription(id,description);
-        return new ResponseEntity(HttpStatus.valueOf(status));
+        return new ResponseEntity<>(HttpStatus.valueOf(status));
     }
 
     @DeleteMapping("/delete")
-    private ResponseEntity deleteFile(@RequestParam Long id) throws IOException, SQLException {
+    private ResponseEntity<?> deleteFile(@RequestParam Long id) throws IOException, SQLException {
         int status = fileAttachmentService.deleteFile(id);
-        return new ResponseEntity(HttpStatus.valueOf(status));
+        return new ResponseEntity<>(HttpStatus.valueOf(status));
     }
 }

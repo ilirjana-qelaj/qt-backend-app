@@ -1,13 +1,19 @@
 package com.qelaj.trockenbau.app.controller;
 
+import com.qelaj.trockenbau.app.dto.UserDTO;
+import com.qelaj.trockenbau.app.dto.UserProfileDTO;
 import com.qelaj.trockenbau.app.entity.User;
 import com.qelaj.trockenbau.app.service.AuthenticationService;
 import com.qelaj.trockenbau.app.service.JwtService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.Builder;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.io.IOException;
+import java.sql.SQLException;
 
 @RequestMapping("/authenticate")
 @RestController
@@ -30,7 +36,7 @@ public class AuthenticationController {
 
     @PostMapping("/login")
     public ResponseEntity<?> authenticate(@RequestBody User loginUserDto, HttpServletRequest request, HttpServletResponse response) {
-        User authenticatedUser = authenticationService.authenticate(loginUserDto,request,response);
+        User authenticatedUser = authenticationService.authenticate(loginUserDto, request, response);
 
         String jwtToken = jwtService.generateToken(authenticatedUser);
 
@@ -42,12 +48,15 @@ public class AuthenticationController {
 
     @GetMapping("/me")
     public ResponseEntity<?> loggedInUser() {
-
-        User user = authenticationService.getLoggedInUser();
-
-        return ResponseEntity.ok(user);
+        return ResponseEntity.ok(authenticationService.getLoggedInUser());
     }
 
+
+    @PatchMapping("/update/user/id/{id}")
+    public ResponseEntity<?> updateUserInfo(@PathVariable Integer id, @ModelAttribute UserProfileDTO userDTO) throws SQLException, IOException {
+        int status = authenticationService.updateUserInfo(id,userDTO);
+        return new ResponseEntity<>(HttpStatus.valueOf(status));
+    }
 
 }
 

@@ -1,5 +1,6 @@
 package com.qelaj.trockenbau.app.entity;
 
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -10,6 +11,7 @@ import org.hibernate.annotations.UpdateTimestamp;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import java.sql.Blob;
 import java.util.Collection;
 import java.util.Date;
 
@@ -41,6 +43,12 @@ public class User implements UserDetails {
     @UpdateTimestamp
     @Column()
     private Date updatedAt;
+
+    private String fileName;
+    private String fileType;
+    @Lob
+    @JsonSerialize(using = BlobSerializer.class)
+    private Blob fileContent;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
