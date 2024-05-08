@@ -6,7 +6,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
 
-import java.sql.Date;
+import java.sql.Timestamp;
+
 
 @Data
 @Entity
@@ -18,7 +19,7 @@ public class ContactRequest {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @CreationTimestamp
-    private Date requestDate;
+    private Timestamp requestDate;
     private String requestFromName;
     private String requestFromSurname;
     private String requestFromEmail;
