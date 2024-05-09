@@ -33,8 +33,8 @@ public class FileAttachmentController {
     }
 
     @PatchMapping("/update-description")
-    private ResponseEntity<?> saveFile(@RequestParam Long id,@RequestParam String description) throws IOException, SQLException {
-        int status = fileAttachmentService.updateDescription(id,description);
+    private ResponseEntity<?> saveFile(@RequestParam Long id,@RequestParam String description,@RequestParam String fileHeader) throws IOException, SQLException {
+        int status = fileAttachmentService.updateDescription(id,description,fileHeader);
         return new ResponseEntity<>(HttpStatus.valueOf(status));
     }
 

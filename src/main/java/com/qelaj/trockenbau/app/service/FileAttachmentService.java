@@ -40,10 +40,11 @@ public class FileAttachmentService {
         return fileAttachmentRepository.findAll();
     }
 
-    public int updateDescription(Long id,String description){
+    public int updateDescription(Long id,String description,String fileHeader){
         Optional<FileAttachment> fileAttachment = fileAttachmentRepository.findById(id);
         if(fileAttachment.isPresent()){
             fileAttachment.get().setFileDescription(description);
+            fileAttachment.get().setFileHeader(fileHeader);
             fileAttachmentRepository.save(fileAttachment.get());
             return 200;
         }
