@@ -21,6 +21,7 @@ public class Invoice {
     @Column(length = 2000)
     private String invoiceDetails;
     private Double amount;
+    private boolean paid;
     private String invoiceNumber;
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "projectId", referencedColumnName = "id")
@@ -28,5 +29,4 @@ public class Invoice {
     private Project project;
     @Transient
     private Long projectId;
-
 }
