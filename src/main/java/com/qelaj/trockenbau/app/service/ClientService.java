@@ -42,4 +42,9 @@ public class ClientService {
     public List<Client> getAllClients() {
         return clientRepository.findAll();
     }
+
+    public List<Client> searchClients(String value){
+        value = value.toLowerCase();
+        return clientRepository.findClientsByValue(value);
+    }
 }

@@ -53,7 +53,9 @@ public class ClientController {
         return ResponseEntity.ok(HttpStatus.OK);
     }
 
-
-
+    @GetMapping("/search")
+    private ResponseEntity getAllClients(@RequestParam String value){
+        return ResponseEntity.ok(clientService.searchClients(value));
+    }
 
 }
