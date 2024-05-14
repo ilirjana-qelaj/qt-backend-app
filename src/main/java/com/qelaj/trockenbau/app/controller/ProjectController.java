@@ -58,7 +58,7 @@ public class ProjectController {
     }
 
     @GetMapping("/search")
-    private ResponseEntity getAllClients(@RequestParam String value,@RequestParam Long clientId,@RequestParam int pageNumber, @RequestParam int dataSize){
+    private ResponseEntity getAllProjectsBySearch(@RequestParam String value,@RequestParam Long clientId,@RequestParam int pageNumber, @RequestParam int dataSize){
         Pageable pagination = PageRequest.of(pageNumber, dataSize);
         if(value.equals("")){
             return ResponseEntity.ok(projectService.getAllWithoutSearch(clientId,pagination));

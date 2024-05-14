@@ -43,6 +43,7 @@ public class SecurityConfiguration {
         http.authorizeHttpRequests((authorize) -> authorize.requestMatchers("/project/**").authenticated());
         http.authorizeHttpRequests((authorize) -> authorize.requestMatchers("/company-information/**").authenticated());
         http.authorizeHttpRequests((authorize) -> authorize.requestMatchers("/contact-request/all").authenticated());
+        http.authorizeHttpRequests((authorize) -> authorize.requestMatchers("/contact-request/search**").authenticated());
         http.authorizeHttpRequests((authorize) -> authorize.requestMatchers("/contact-request/id/{id}").authenticated());
 
 

@@ -7,6 +7,8 @@ import com.qelaj.trockenbau.app.repository.ClientRepository;
 import com.qelaj.trockenbau.app.repository.InvoiceRepository;
 import com.qelaj.trockenbau.app.repository.ProjectRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -59,5 +61,14 @@ public class InvoiceService {
 
     public List<Invoice> getAllInvoicesByProjectId(Long projectId) {
         return invoiceRepository.findByProjectId(projectId);
+    }
+
+    public Page<Invoice> searchInvoices(String value, Long projectId, Pageable pageable){
+        value = value.toLowerCase();
+        return invoiceRepository.findInvoicesByValueAndProjectId(value,projectId,pageable);
+    }
+
+    public Page<Invoice> getAllWithoutSearch(Long projectId,Pageable pageable){
+        return invoiceRepository.findByProjectId(projectId,pageable);
     }
 }

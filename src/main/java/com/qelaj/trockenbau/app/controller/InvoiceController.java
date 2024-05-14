@@ -4,6 +4,8 @@ import com.qelaj.trockenbau.app.entity.Client;
 import com.qelaj.trockenbau.app.entity.Invoice;
 import com.qelaj.trockenbau.app.service.InvoiceService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -55,5 +57,14 @@ public class InvoiceController {
     @GetMapping("/project/{projectId}")
     private ResponseEntity getAllInvoicesByProjectId(@PathVariable Long projectId){
         return ResponseEntity.ok(invoiceService.getAllInvoicesByProjectId(projectId));
+    }
+
+    @GetMapping("/search")
+    private ResponseEntity getAllInvoicesBySearch(@RequestParam String value,@RequestParam Long projectId,@RequestParam int pageNumber, @RequestParam int dataSize){
+        Pageable pagination = PageRequest.of(pageNumber, dataSize);
+        if(value.equals("")){
+            return ResponseEntity.ok(invoiceService.getAllWithoutSearch(projectId,pagination));
+        }
+        return ResponseEntity.ok(invoiceService.searchInvoices(value,projectId,pagination));
     }
 }

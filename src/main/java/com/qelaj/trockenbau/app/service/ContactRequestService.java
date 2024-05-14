@@ -2,8 +2,11 @@ package com.qelaj.trockenbau.app.service;
 
 import com.qelaj.trockenbau.app.entity.Client;
 import com.qelaj.trockenbau.app.entity.ContactRequest;
+import com.qelaj.trockenbau.app.entity.Invoice;
 import com.qelaj.trockenbau.app.repository.ContactRequestRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -50,4 +53,14 @@ public class ContactRequestService {
     public List<ContactRequest> getAllContactRequest() {
         return contactRequestRepository.findAll();
     }
+
+    public Page<ContactRequest> searchContactRequests(String value, Pageable pageable){
+        value = value.toLowerCase();
+        return contactRequestRepository.findContactRequestByValueAndProjectId(value,pageable);
+    }
+
+    public Page<ContactRequest> getAllWithoutSearch(Pageable pageable){
+        return contactRequestRepository.findAll(pageable);
+    }
+
 }
