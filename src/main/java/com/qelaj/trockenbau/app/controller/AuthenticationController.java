@@ -58,6 +58,12 @@ public class AuthenticationController {
         return new ResponseEntity<>(HttpStatus.valueOf(status));
     }
 
+    @GetMapping("/password-matches")
+    public ResponseEntity<?> passwordMatches(@RequestParam String password) throws SQLException, IOException {
+        boolean matches = authenticationService.checkCurrentPasswordMatches(password);
+        return ResponseEntity.ok(matches);
+    }
+
 }
 
 

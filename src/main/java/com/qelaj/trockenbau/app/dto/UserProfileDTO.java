@@ -19,5 +19,6 @@ public class UserProfileDTO {
     private String fullName;
     private String email;
     private MultipartFile file;
+    private String password;
 }
 

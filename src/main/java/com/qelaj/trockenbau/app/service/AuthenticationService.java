@@ -104,11 +104,20 @@ public class AuthenticationService {
             user.get().setFileContent(blob);
 
             user.get().setFullName(userDTO.getFullName());
-            user.get().setEmail(userDTO.getEmail());
+            if(userDTO.getPassword() != null){
+                user.get().setPassword(passwordEncoder.encode(userDTO.getPassword()));
+            }
             userRepository.save(user.get());
             return 200;
         }else{
             return 404;
         }
+    }
+
+    public boolean checkCurrentPasswordMatches(String currentPassword){
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        User user = (User) authentication.getPrincipal();
+        User userFromDB = userRepository.findByEmail(user.getEmail()).orElse(null);
+        return passwordEncoder.matches(currentPassword,userFromDB.getPassword());
     }
 }
