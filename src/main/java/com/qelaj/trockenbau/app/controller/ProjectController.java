@@ -1,8 +1,9 @@
 package com.qelaj.trockenbau.app.controller;
 
-import com.qelaj.trockenbau.app.entity.Client;
 import com.qelaj.trockenbau.app.entity.Project;
 import com.qelaj.trockenbau.app.service.ProjectService;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -54,5 +55,14 @@ public class ProjectController {
     @GetMapping("/client/{clientId}")
     private ResponseEntity getProjectsByClientId(@PathVariable Long clientId){
         return ResponseEntity.ok(projectService.getAllProjectsByClientId(clientId));
+    }
+
+    @GetMapping("/search")
+    private ResponseEntity getAllClients(@RequestParam String value,@RequestParam Long clientId,@RequestParam int pageNumber, @RequestParam int dataSize){
+        Pageable pagination = PageRequest.of(pageNumber, dataSize);
+        if(value.equals("")){
+            return ResponseEntity.ok(projectService.getAllWithoutSearch(clientId,pagination));
+        }
+        return ResponseEntity.ok(projectService.searchProjects(value,clientId,pagination));
     }
 }

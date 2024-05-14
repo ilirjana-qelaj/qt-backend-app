@@ -3,6 +3,8 @@ package com.qelaj.trockenbau.app.controller;
 import com.qelaj.trockenbau.app.entity.Client;
 import com.qelaj.trockenbau.app.service.ClientService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -54,8 +56,12 @@ public class ClientController {
     }
 
     @GetMapping("/search")
-    private ResponseEntity getAllClients(@RequestParam String value){
-        return ResponseEntity.ok(clientService.searchClients(value));
+    private ResponseEntity getAllClients(@RequestParam String value,@RequestParam int pageNumber, @RequestParam int dataSize){
+        Pageable pagination = PageRequest.of(pageNumber, dataSize);
+        if(value.equals("")){
+            return ResponseEntity.ok(clientService.getAllWithoutSearch(pagination));
+        }
+        return ResponseEntity.ok(clientService.searchClients(value,pagination));
     }
 
 }

@@ -3,6 +3,8 @@ package com.qelaj.trockenbau.app.service;
 import com.qelaj.trockenbau.app.entity.Client;
 import com.qelaj.trockenbau.app.repository.ClientRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -43,8 +45,12 @@ public class ClientService {
         return clientRepository.findAll();
     }
 
-    public List<Client> searchClients(String value){
+    public Page<Client> searchClients(String value, Pageable pageable){
         value = value.toLowerCase();
-        return clientRepository.findClientsByValue(value);
+        return clientRepository.findClientsByValue(value,pageable);
+    }
+
+    public Page<Client> getAllWithoutSearch(Pageable pageable){
+        return clientRepository.findAll(pageable);
     }
 }
