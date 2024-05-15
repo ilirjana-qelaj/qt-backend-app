@@ -37,11 +37,14 @@ public class SecurityConfiguration {
         http.authorizeHttpRequests((authorize) -> authorize.requestMatchers("/file-attachment/**").permitAll());
         http.authorizeHttpRequests((authorize) -> authorize.requestMatchers("/contact-request/create").permitAll());
         http.authorizeHttpRequests((authorize) -> authorize.requestMatchers("/authenticate/**").permitAll());
+        http.authorizeHttpRequests((authorize) -> authorize.requestMatchers("/company-information/contact").permitAll());
 
         http.authorizeHttpRequests((authorize) -> authorize.requestMatchers("/client/**").authenticated());
         http.authorizeHttpRequests((authorize) -> authorize.requestMatchers("/invoice/**").authenticated());
         http.authorizeHttpRequests((authorize) -> authorize.requestMatchers("/project/**").authenticated());
-        http.authorizeHttpRequests((authorize) -> authorize.requestMatchers("/company-information/**").authenticated());
+        http.authorizeHttpRequests((authorize) -> authorize.requestMatchers("/company-information/update").authenticated());
+        http.authorizeHttpRequests((authorize) -> authorize.requestMatchers("/company-information/all").authenticated());
+        http.authorizeHttpRequests((authorize) -> authorize.requestMatchers("/company-information/id/{id}").authenticated());
         http.authorizeHttpRequests((authorize) -> authorize.requestMatchers("/contact-request/all").authenticated());
         http.authorizeHttpRequests((authorize) -> authorize.requestMatchers("/contact-request/search**").authenticated());
         http.authorizeHttpRequests((authorize) -> authorize.requestMatchers("/contact-request/id/{id}").authenticated());

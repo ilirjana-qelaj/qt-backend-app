@@ -42,4 +42,8 @@ public class CompanyInformationService {
     public List<CompanyInformation> getAllCompanyInformation() {
         return companyInformationRepository.findAll();
     }
+
+    public List<CompanyInformation> getCompanyInformationForContact() {
+        return companyInformationRepository.getCompanyInformation();
+    }
 }

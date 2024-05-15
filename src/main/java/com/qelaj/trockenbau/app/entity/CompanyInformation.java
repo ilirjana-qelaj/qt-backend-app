@@ -23,6 +23,11 @@ public class CompanyInformation {
     private String securityCode;
 
 
-
-
+    public CompanyInformation(String name, String phone, String location, String ownerName, String ownerEmail) {
+        this.name = name;
+        this.phone = phone;
+        this.location = location;
+        this.ownerName = ownerName;
+        this.ownerEmail = ownerEmail;
+    }
 }

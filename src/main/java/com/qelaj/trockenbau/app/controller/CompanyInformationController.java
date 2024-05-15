@@ -35,6 +35,11 @@ public class CompanyInformationController {
         return ResponseEntity.ok(companyInformationService.getAllCompanyInformation());
     }
 
+    @GetMapping("/contact")
+    private ResponseEntity getCompanyInformationForContact(){
+        return ResponseEntity.ok(companyInformationService.getCompanyInformationForContact());
+    }
+
 
     @PatchMapping("/update")
     private ResponseEntity updateCompanyInformation(@RequestBody CompanyInformation companyInformation){
