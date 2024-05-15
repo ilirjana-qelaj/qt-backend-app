@@ -10,6 +10,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -70,15 +71,19 @@ public class AuthenticationService {
                 input.getPassword(), grantedAuthority
         );
 
-        Authentication authentication = authenticationManager.authenticate(token);
+        try {
+            Authentication authentication = authenticationManager.authenticate(token);
 
-        SecurityContext context = securityContextHolderStrategy.createEmptyContext();
-        context.setAuthentication(authentication);
-        securityContextHolderStrategy.setContext(context);
-        securityContextRepository.saveContext(context, request, response);
+            SecurityContext context = securityContextHolderStrategy.createEmptyContext();
+            context.setAuthentication(authentication);
+            securityContextHolderStrategy.setContext(context);
+            securityContextRepository.saveContext(context, request, response);
 
-        return userRepository.findByEmail(input.getEmail())
-                .orElseThrow();
+            return userRepository.findByEmail(input.getEmail())
+                    .orElse(null);
+        }catch (AuthenticationException ex){
+            return null;
+        }
     }
 
     public UserDTO getLoggedInUser() {

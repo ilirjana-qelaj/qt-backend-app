@@ -38,6 +38,10 @@ public class AuthenticationController {
     public ResponseEntity<?> authenticate(@RequestBody User loginUserDto, HttpServletRequest request, HttpServletResponse response) {
         User authenticatedUser = authenticationService.authenticate(loginUserDto, request, response);
 
+        if(authenticatedUser == null){
+            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+        }
+
         String jwtToken = jwtService.generateToken(authenticatedUser);
 
         LoginResponse loginResponse = LoginResponse.builder().token(jwtToken).expiresIn(jwtService.getExpirationTime()).build();
