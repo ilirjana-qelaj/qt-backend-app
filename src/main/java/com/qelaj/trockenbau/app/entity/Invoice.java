@@ -18,6 +18,8 @@ public class Invoice {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private Date invoiceDate;
+    private Date startWorkDate;
+    private Date endWorkDate;
     @Column(length = 2000)
     private String invoiceDetails;
     private Double amount;

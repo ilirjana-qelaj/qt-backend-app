@@ -20,6 +20,10 @@ public class Client {
     private String clientName;
     private String telephoneNumber;
     private String clientAddress;
+    private String clientEmail;
+    private String financePhoneNumber;
+    private String contactPersonNumber;
+    private String contactPersonEmail;
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "client")
     private List<Project> clientProjects;
 //    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "client")
