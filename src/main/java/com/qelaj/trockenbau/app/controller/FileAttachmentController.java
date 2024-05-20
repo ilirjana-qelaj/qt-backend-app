@@ -1,5 +1,6 @@
 package com.qelaj.trockenbau.app.controller;
 
+import com.qelaj.trockenbau.app.dto.FileAttachmentBodyDTO;
 import com.qelaj.trockenbau.app.service.FileAttachmentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -33,8 +34,8 @@ public class FileAttachmentController {
     }
 
     @PatchMapping("/update-description")
-    private ResponseEntity<?> saveFile(@RequestParam Long id,@RequestParam String description,@RequestParam String fileHeader) throws IOException, SQLException {
-        int status = fileAttachmentService.updateDescription(id,description,fileHeader);
+    private ResponseEntity<?> saveFile(@RequestParam Long id, @RequestBody FileAttachmentBodyDTO attachmentBodyDTO) throws IOException, SQLException {
+        int status = fileAttachmentService.updateDescription(id,attachmentBodyDTO);
         return new ResponseEntity<>(HttpStatus.valueOf(status));
     }
 

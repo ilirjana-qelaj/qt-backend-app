@@ -23,7 +23,9 @@ public class FileAttachment {
     @Lob
     @JsonSerialize(using = BlobSerializer.class)
     private Blob fileContent;
-    private String fileDescription;
-    private String fileHeader;
+    private String fileDescriptionEN;
+    private String fileHeaderEN;
+    private String fileDescriptionDE;
+    private String fileHeaderDE;
 
 }

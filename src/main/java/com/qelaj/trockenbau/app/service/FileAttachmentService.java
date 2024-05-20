@@ -1,5 +1,6 @@
 package com.qelaj.trockenbau.app.service;
 
+import com.qelaj.trockenbau.app.dto.FileAttachmentBodyDTO;
 import com.qelaj.trockenbau.app.entity.FileAttachment;
 import com.qelaj.trockenbau.app.repository.FileAttachmentRepository;
 import jakarta.mail.Multipart;
@@ -40,11 +41,13 @@ public class FileAttachmentService {
         return fileAttachmentRepository.findAll();
     }
 
-    public int updateDescription(Long id,String description,String fileHeader){
+    public int updateDescription(Long id, FileAttachmentBodyDTO attachmentBodyDTO){
         Optional<FileAttachment> fileAttachment = fileAttachmentRepository.findById(id);
         if(fileAttachment.isPresent()){
-            fileAttachment.get().setFileDescription(description);
-            fileAttachment.get().setFileHeader(fileHeader);
+            fileAttachment.get().setFileDescriptionEN(attachmentBodyDTO.getFileDescriptionEN());
+            fileAttachment.get().setFileHeaderEN(attachmentBodyDTO.getFileHeaderEN());
+            fileAttachment.get().setFileDescriptionDE(attachmentBodyDTO.getFileDescriptionDE());
+            fileAttachment.get().setFileHeaderDE(attachmentBodyDTO.getFileHeaderDE());
             fileAttachmentRepository.save(fileAttachment.get());
             return 200;
         }
