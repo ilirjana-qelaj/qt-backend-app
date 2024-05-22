@@ -1,6 +1,7 @@
 package com.qelaj.trockenbau.app.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.qelaj.trockenbau.app.enums.Status;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -23,6 +24,7 @@ public class Project {
     private Date startDate;
     private Date endDate;
     private String projectAddress;
+    private Status status;
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "clientId", referencedColumnName = "id")
     @JsonIgnore
