@@ -25,6 +25,7 @@ public class Invoice {
     private Double amount;
     private boolean paid;
     private String invoiceNumber;
+    private Date invoicePaidDate;
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "projectId", referencedColumnName = "id")
     @JsonIgnore
