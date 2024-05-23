@@ -24,6 +24,7 @@ public class Project {
     private Date startDate;
     private Date endDate;
     private String projectAddress;
+    @Enumerated(EnumType.STRING)
     private Status status;
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "clientId", referencedColumnName = "id")
