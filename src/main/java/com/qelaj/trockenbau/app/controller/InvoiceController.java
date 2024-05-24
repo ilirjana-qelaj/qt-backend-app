@@ -6,6 +6,7 @@ import com.qelaj.trockenbau.app.service.InvoiceService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -60,8 +61,15 @@ public class InvoiceController {
     }
 
     @GetMapping("/search")
-    private ResponseEntity getAllInvoicesBySearch(@RequestParam String value,@RequestParam Long projectId,@RequestParam int pageNumber, @RequestParam int dataSize){
-        Pageable pagination = PageRequest.of(pageNumber, dataSize);
+    private ResponseEntity getAllInvoicesBySearch(@RequestParam String value,@RequestParam Long projectId,@RequestParam int pageNumber,
+                                                  @RequestParam int dataSize, @RequestParam(required = false) String direction,@RequestParam(required = false) String sortBy){
+        Pageable pagination=null;
+        if(direction != null && sortBy != null){
+            Sort sort = direction.equalsIgnoreCase(Sort.Direction.ASC.name()) ? Sort.by(sortBy).ascending() : Sort.by(sortBy).descending();
+            pagination = PageRequest.of(pageNumber, dataSize,sort);
+        }else{
+            pagination = PageRequest.of(pageNumber, dataSize);
+        }
         if(value.equals("")){
             return ResponseEntity.ok(invoiceService.getAllWithoutSearch(projectId,pagination));
         }
