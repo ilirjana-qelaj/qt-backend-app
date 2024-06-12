@@ -13,7 +13,7 @@ import java.sql.Blob;
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "File")
+@Table(name = "files")
 public class FileAttachment {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

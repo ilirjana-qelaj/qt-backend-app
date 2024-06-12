@@ -26,6 +26,4 @@ public class Client {
     private String contactPersonEmail;
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "client")
     private List<Project> clientProjects;
-//    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "client")
-//    private List<Invoice> clientInvoices;
 }
